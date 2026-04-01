@@ -447,7 +447,17 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Wyzwanie04_MiastaILiczbaAktywnychZapisow()
     {
-        throw Niezaimplementowano(nameof(Wyzwanie04_MiastaILiczbaAktywnychZapisow));
+        return DaneUczelni.Zapisy
+            .Where(z => z.CzyAktywny)
+            .Join(
+                DaneUczelni.Studenci,
+                z => z.StudentId,
+                s => s.Id,
+                (z, s) => s.Miasto
+            )
+            .GroupBy(m => m)
+            .OrderByDescending(g => g.Count())
+            .Select(g => $"{g.Key} - aktywne zapisy: {g.Count()}");
     }
 
     private static NotImplementedException Niezaimplementowano(string nazwaMetody)
