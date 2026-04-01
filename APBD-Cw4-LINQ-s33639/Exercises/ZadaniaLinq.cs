@@ -115,7 +115,13 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie06_CzyWszyscyProwadzacyMajaKatedre()
     {
-        throw Niezaimplementowano(nameof(Zadanie06_CzyWszyscyProwadzacyMajaKatedre));
+        var wszyscy = DaneUczelni.Prowadzacy
+            .All(p => !string.IsNullOrWhiteSpace(p.Katedra));
+
+        return new[]
+        {
+            $"Czy wszyscy prowadzący mają katedrę: {wszyscy}"
+        };
     }
 
     /// <summary>
